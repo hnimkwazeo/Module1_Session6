@@ -1,45 +1,31 @@
-create database ElearningDB;
-
-create schema elearning;
-
-create table Students(
-	student_id serial primary key,
-	first_name varchar(50) not null,
-	last_name varchar(50) not null,
-	email varchar(255) not null unique
+create table OrderInfo (
+	id serial primary key,
+	customer_id int,
+	order_date date,
+	total numeric(10,2),
+	status varchar(20)
 );
 
-create table Instructors(
-	instructor_id serial primary key,
-	first_name varchar(50) not null,
-	last_name varchar(50) not null,
-	email varchar(255) not null unique	
-);
+--Y1:
+insert into orderinfo(customer_id,order_date,total,status) values
+(2, '2005-03-05', 10000.56, 'Completed'),
+(1, '2006-05-05', 20000000.00, 'Completed'),
+(101, '2026-03-23', 50000.54, 'Pending'),
+(3, '2026-03-22', 55000.00, 'Cancel'),
+(110, '2025-12-07', 345000.89, 'Completed');
 
-create table Courses(
-	course_id serial primary key,
-	course_name varchar(100) not null,
-	instructor_id int references instructors(instructor_id)
-);
+--Y2:
+select * from orderinfo
+where total > 500000;
 
-create table Enrollments(
-	enrollment_id serial primary key,
-	student_id int references students(student_id),
-	course_id int references courses(course_id),
-	enroll_date Date
-);
+--Y3:
+select * from orderinfo
+where order_date between '2024-10-01' and '2024-10-31';
 
-create table Assignments(
-	assignment_id serial primary key,
-	course_id int references courses(course_id),
-	title varchar(100) not null,
-	due_date Date
-);
+--Y4:
+select * from orderinfo
+where status <> 'Completed';
 
-create table Submissions(
-	submission_id serial primary key,
-	assignment_id int references assignments(assignment_id),
-	student_id int references students(student_id),
-	submission_date Date,
-	grade int check (grade between 0 and 100)
-);
+--Y5:
+select * from orderinfo
+order by order_date desc limit 2;
