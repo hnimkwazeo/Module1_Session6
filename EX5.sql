@@ -1,42 +1,33 @@
-create database HotelDB;
-
-create schema hotel;
-
-create table RoomTypes(
-	room_type_id serial primary key,
-	type_name varchar(50) not null unique,
-	price_per_night numeric(10,2) check (price_per_night > 0),
-	max_capacity int check (max_capacity > 0)
+create table Course (
+	id serial primary key,
+	title varchar(100),
+	instructor varchar(50),
+	price numeric(10,2),
+	duration int 
 );
 
-create table Rooms(
-	room_id serial primary key,
-	room_number varchar(10) not null unique,
-	room_type_id int references roomtypes(room_type_id),
-	status varchar(20) check (status IN ('Available','Occupied','Maintenance'))
-);
+--Y1:
+insert into course(title,instructor,price,duration) values
+('Cơ sở dữ liệu', 'Nguyễn Trọng Khánh', 4000000.00, 75),
+('Cấu trúc dữ liệu và giải thuật', 'Nguyễn Duy Phương', 4500000.00, 80),
+('Kĩ năng tạo lập văn bản bằng Tiếng Việt', 'Trần Ngọc Mai', 850000.00, 15),
+('Tư tưởng Hồ Chí Minh', 'Trần Thị Hồng Hạnh', 1600000.00, 30),
+('SQL injection', 'Nguyện Ngọc Hà', 2100000.00, 75),
+('T-Sql', 'Nguyễn Trọng Khánh', 3000000.00, 75),
+('Demo lập trình web', 'Dương Trần Đức', 2100000.00, 45);
 
-create table Customers(
-	customer_id serial primary key,
-	full_name varchar(100) not null,
-	email varchar(100) unique not null,
-	phone varchar(15) not null
-);
+--Y2:
+update course set price = price + price * 0.15 where duration > 30;
 
-create table Bookings(
-	booking_id serial primary key,
-	customer_id int references customers(customer_id),
-	room_id int references rooms(room_id),
-	check_in Date not null,
-	check_out Date not null,
-	status varchar(20) check (status IN ('Pending','Comfirmed','Cancelled'))
-);
+--Y3:
+delete from course
+where title like '%Demo%';
 
-create table Payments(
-	payment_id serial primary key,
-	booking_id int references bookings(booking_id),
-	amount numeric(10,2) check (amount >= 0),
-	payment_date Date not null,
-	methods varchar(20) check (methods IN ('Credit Card','Cash','Bank Transfer'))
-);
+--Y4:
+select * from course 
+where title ilike '%sql&';
 
+--Y5:
+select * from course 
+where price between 500000 and 2000000
+order by price desc;
