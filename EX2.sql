@@ -1,42 +1,35 @@
-create database UniversityDB;
-
-create schema university;
-
-create table Students(
-	student_id serial primary key,
-	first_name varchar(50) not null,
-	last_name varchar(50) not null,
-	birth_date Date,
-	email varchar(255) not null unique
+create table Employee (
+	id serial primary key,
+	full_name varchar(100),
+	department varchar(50),
+	salary numeric(10,2),
+	hire_date date
 );
 
-create table Courses(
-	course_id serial primary key,
-	course_name varchar(100) not null,
-	credits int 
-);
+--Y1:
+insert into employee(full_name,department,salary,hire_date) values
+('Vũ Nhật Minh', 'IT', 10000000.00, '2026-03-10'),
+('Dương Thị Tám', 'Khoa học tự nhiên', 30000000.00, '1997-03-20'),
+('Vũ Huy Chuộng', 'Khoa học xã hội', 50000000.00, '1990-09-01'),
+('Vũ Quang Dương', 'IT', 40000000.00, '2021-09-03'),
+('Vũ Huy Toàn', 'Kinh tế', 80000000.00, '2013-11-25'),
+('Điều Thị Thanh Huyền', 'Khoa học tự nhiên', 50000000.00, '2018-09-20'),
+('Trần Thị Hải An', 'Kinh tế', 5000000.22, '2026-03-23'),
+('NguyỄn qUốc aN', 'IT', 50000000.00, '2026-03-10');
 
-create table Enrollment(
-	enrollment_id serial primary key,
-	student_id int references students(student_id),
-	course_id int references courses(course_id),
-	enroll_date Date
-);
+--Y2:
+update employee set salary = salary + 0.1 * salary where department = 'IT';
 
-SELECT datname 
-FROM pg_database;
+--Y3:
+delete from employee
+where salary < 6000000;
 
-SELECT schema_name
-FROM information_schema.schemata;
+--Y4:
+select * from employee
+where full_name ilike '%an';
 
-SELECT column_name, data_type
-FROM information_schema.columns
-WHERE table_name = 'students';
+--Y5: 
+select full_name
+from employee
+where hire_date between '2023-01-01' and '2023-12-31';
 
-SELECT column_name, data_type
-FROM information_schema.columns
-WHERE table_name = 'courses';
-
-SELECT column_name, data_type
-FROM information_schema.columns
-WHERE table_name = 'enrollment';
