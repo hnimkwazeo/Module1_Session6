@@ -1,32 +1,33 @@
-create database salesdb;
-
-create schema sales;
-
-create table Customers(
-    customer_id serial primary key,
-	first_name varchar(50) not null,
-	last_name varchar(50) not null,
-	email varchar(255) not null unique,   
-	phone varchar(10) unique
+create table Customer (
+	id serial primary key,
+	name varchar(100),
+	email varchar(100),
+	phone varchar(20),
+	points int
 );
 
-create table Products(
-	product_id serial primary key,
-	product_name varchar(100) not null,
-	price decimal(10, 2) not null,
-	stock_quantity bigint not null
-);
+insert into customer(name,email,phone,points) values 
+('Vũ Nhật Minh', 'minh@gmail.com', '0365247139', 20),
+('Vũ Quang Dương', 'duong@gmail.com', '0345679866', 30),
+('Vũ Huy Chuộng', 'chuong@gmail.com', '0312345678', 120),
+('Dương Thị Tám', 'tam@gmail.com', '0904339998', 200),
+('Vũ Huy Toàn', 'toan@gmail.com', '0587780683', 330),
+('Vũ Thị Huyền', 'huyen@gmail.com', '0226578789', 550),
+('Vũ Thị Huyền', null , '0365247139', 10);
 
-create table Orders(
-	order_id serial primary key,
-	customer_id int references customers(customer_id),
-	order_date Date not null
-);
+--Y1
+select distinct name
+from customer;
 
-create table OrderItems(
-	order_item_id serial primary key,
-	order_id int references orders(order_id),
-	product_id int references products(product_id),
-	quantity bigint check (quantity >= 1)
-);
+--Y2:
+select * from customer
+where email is null;
 
+--Y3:
+select * from customer
+order by points desc
+offset 1 limit 3;
+
+--Y4:
+select * from customer
+order by name desc;
